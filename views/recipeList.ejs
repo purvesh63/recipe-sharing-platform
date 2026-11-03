@@ -1,0 +1,55 @@
+<%- include("partials/head", { title }) %>
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">GOOD FOOD. GOOD MOOD.</p>
+      <h1>Recipes worth<br><em>sharing.</em></h1>
+      <p class="hero-text">A little inspiration for your next delicious moment. Discover home-cooked favourites from our
+        community.</p>
+      <a class="button button-light" href="<%= currentUser ? '/recipes/new' : '/register' %>">Share your recipe
+        <span>↗</span></a>
+    </div>
+    <div class="hero-image" role="img" aria-label="Freshly prepared food"></div>
+    <div class="hero-note">FRESH IDEAS, EVERY DAY <span>✳</span></div>
+  </section>
+  <section class="section-heading">
+    <div>
+      <p class="eyebrow">FROM OUR COMMUNITY</p>
+      <h2>Explore recipes</h2>
+    </div>
+    <span class="muted">
+      <%= recipes.length %> delicious ideas
+    </span>
+  </section>
+  <% if (!recipes.length) { %>
+    <div class="empty-state">
+      <div class="empty-icon">♨</div>
+      <h3>The table is waiting.</h3>
+      <p>Be the first to share something delicious.</p><a class="button" href="/recipes/new">Add a recipe</a>
+    </div>
+    <% } else { %>
+      <div class="recipe-grid">
+        <% recipes.forEach(recipe=> { %>
+          <article class="recipe-card">
+            <a class="card-image" href="/recipes/<%= recipe._id %>">
+              <img src="<%= recipe.imageUrl || 'https://images.unsplash.com/photo-1547592180-85f173990554?q=80' %>"
+                alt="<%= recipe.title %>">
+              <span class="category-tag">
+                <%= recipe.category %>
+              </span>
+            </a>
+            <div class="card-content">
+              <div class="card-meta"><span>BY <%= recipe.author ? recipe.author.username : 'Community chef' %>
+                </span><span>◷ <%= recipe.prepTime %> MIN</span></div>
+              <h3><a href="/recipes/<%= recipe._id %>">
+                  <%= recipe.title %>
+                </a></h3>
+              <p>
+                <%= recipe.description %>
+              </p>
+              <a class="text-link" href="/recipes/<%= recipe._id %>">View recipe <span>→</span></a>
+            </div>
+          </article>
+          <% }) %>
+      </div>
+      <% } %>
+        <%- include("partials/foot") %>

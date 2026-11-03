@@ -1,0 +1,45 @@
+<%- include("partials/head", { title }) %>
+  <section class="form-layout">
+    <div class="form-aside">
+      <p class="eyebrow">MADE BY YOU</p>
+      <h1>Good things<br>start in the<br><em>kitchen.</em></h1>
+      <p>Write down the details, add your favourite photo, and pass the goodness along.</p>
+    </div>
+    <form class="form-card" action="<%= recipe ? '/recipes/' + recipe._id + '/edit' : '/recipes' %>" method="POST">
+      <p class="eyebrow">
+        <%= recipe ? 'UPDATE YOUR DISH' : 'ADD TO THE TABLE' %>
+      </p>
+      <h2>
+        <%= recipe ? 'Edit recipe' : 'Share a recipe' %>
+      </h2>
+      <% if (error) { %>
+        <p class="alert">
+          <%= error %>
+        </p>
+        <% } %>
+          <label>Recipe name<input name="title" required maxlength="100" value="<%= recipe ? recipe.title : '' %>"
+              placeholder="e.g. Sunday tomato pasta"></label>
+          <label>Short description<textarea name="description" required rows="2" maxlength="1000"
+              placeholder="What makes this dish special?"><%= recipe ? recipe.description : '' %></textarea></label>
+          <div class="two-fields">
+            <label>Category<select name="category">
+                <% ['Breakfast','Lunch','Dinner','Dessert','Snack','Drinks','Other'].forEach(c=> { %><option
+                    value="<%= c %>" <%=recipe && recipe.category===c ? 'selected' : '' %>><%= c %>
+                  </option>
+                  <% }) %>
+              </select></label>
+            <label>Prep time (minutes)<input type="number" name="prepTime" min="0"
+                value="<%= recipe ? recipe.prepTime : 30 %>"></label>
+          </div>
+          <label>Image URL <span class="optional">(optional)</span><input type="url" name="imageUrl"
+              value="<%= recipe ? recipe.imageUrl : '' %>" placeholder="https://..."></label>
+          <label>Ingredients <span class="optional">(one per line)</span><textarea name="ingredients" rows="5" required
+              placeholder="2 cups flour&#10;1 cup milk"><%= recipe ? recipe.ingredients.join('\n') : '' %></textarea></label>
+          <label>Instructions<textarea name="instructions" rows="6" required
+              placeholder="Step 1..."><%= recipe ? recipe.instructions : '' %></textarea></label>
+          <button class="button button-wide" type="submit">
+            <%= recipe ? 'Save changes' : 'Publish recipe' %> <span>→</span>
+          </button>
+    </form>
+  </section>
+  <%- include("partials/foot") %>

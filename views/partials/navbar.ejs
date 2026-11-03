@@ -1,0 +1,16 @@
+<nav class="navbar">
+  <a class="brand" href="/recipes"><span class="brand-mark">✦</span> Savoury<span class="brand-dot">.</span></a>
+  <div class="nav-links">
+    <a href="/recipes">Explore</a>
+    <% if (currentUser) { %>
+      <a href="/recipes/mine">My recipes</a>
+      <a href="/recipes/new">＋ Share a recipe</a>
+      <span class="nav-user">Hi, <%= currentUser.username %></span>
+      <form action="/logout" method="POST" class="inline-form"><button class="nav-signout" type="submit">Sign
+          out</button></form>
+      <% } else { %>
+        <a href="/login">Sign in</a>
+        <a class="nav-cta" href="/register">Join free</a>
+        <% } %>
+  </div>
+</nav>

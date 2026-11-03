@@ -1,0 +1,75 @@
+<%- include("partials/head", { title }) %>
+  <a class="back-link" href="/recipes">← Back to recipes</a>
+  <article class="detail">
+    <div class="detail-image">
+      <img src="<%= recipe.imageUrl || 'https://images.unsplash.com/photo-1547592180-85f173990554?w=1200' %>"
+        alt="<%= recipe.title %>">
+    </div>
+    <div class="detail-body">
+      <p class="eyebrow">
+        <%= recipe.category %> · <%= recipe.prepTime %> MIN PREP
+      </p>
+      <h1>
+        <%= recipe.title %>
+      </h1>
+      <p class="detail-description">
+        <%= recipe.description %>
+      </p>
+      <p class="byline">Shared by <strong>
+          <%= recipe.author ? recipe.author.username : 'Community chef' %>
+        </strong></p>
+      <% if (currentUser && (String(recipe.author._id)===String(currentUser._id) || currentUser.role==='admin' )) { %>
+        <div class="manage-actions"><a class="button button-outline" href="/recipes/<%= recipe._id %>/edit">Edit
+            recipe</a>
+          <form action="/recipes/<%= recipe._id %>/delete" method="POST"
+            onsubmit="return confirm('Delete this recipe?')"><button class="button button-danger"
+              type="submit">Delete</button></form>
+        </div>
+        <% } %>
+          <div class="detail-columns">
+            <section>
+              <h2>Ingredients</h2>
+              <ul class="ingredient-list">
+                <% recipe.ingredients.forEach(item=> { %><li><span>✳</span>
+                    <%= item %>
+                  </li>
+                  <% }) %>
+              </ul>
+            </section>
+            <section>
+              <h2>Method</h2>
+              <div class="instructions">
+                <%= recipe.instructions %>
+              </div>
+            </section>
+          </div>
+    </div>
+  </article>
+  <section class="comments">
+    <p class="eyebrow">COMMUNITY TABLE</p>
+    <h2>Comments <span class="muted">(<%= recipe.comments.length %>)</span></h2>
+    <% if (currentUser) { %>
+      <form class="comment-form" action="/comments/<%= recipe._id %>" method="POST"><textarea name="text" required
+          maxlength="500" rows="3" placeholder="Share a tip or leave a kind note..."></textarea><button class="button"
+          type="submit">Post comment →</button></form>
+      <% } else { %>
+        <p><a href="/login">Sign in</a> to join the conversation.</p>
+        <% } %>
+          <% recipe.comments.forEach(comment=> { %>
+            <div class="comment">
+              <div><strong>
+                  <%= comment.author ? comment.author.username : 'User' %>
+                </strong><span class="muted"> · <%= new Date(comment.createdAt).toLocaleDateString() %></span>
+                <p>
+                  <%= comment.text %>
+                </p>
+              </div>
+              <% if (currentUser && (String(comment.author._id)===String(currentUser._id) || currentUser.role==='admin'
+                )) { %>
+                <form action="/comments/<%= comment._id %>/delete" method="POST"><button class="delete-link"
+                    type="submit">Delete</button></form>
+                <% } %>
+            </div>
+            <% }) %>
+  </section>
+  <%- include("partials/foot") %>

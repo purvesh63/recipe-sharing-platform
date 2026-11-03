@@ -1,0 +1,26 @@
+<%- include("partials/head", { title }) %>
+    <section class="auth-wrap">
+        <div class="auth-art">
+            <p class="eyebrow">A COMMUNITY OF FOOD LOVERS</p>
+            <h1>Pull up<br>a <em>chair.</em></h1>
+            <p>Save your favourites, share your creations, and find inspiration in every kitchen.</p>
+        </div>
+        <form class="form-card auth-card" action="/register" method="POST">
+            <p class="eyebrow">LET'S GET COOKING</p>
+            <h2>Create account</h2>
+            <% if (error) { %>
+                <p class="alert">
+                    <%= error %>
+                </p>
+                <% } %>
+                    <label>Your name<input name="username" required minlength="3" maxlength="30" autocomplete="username"
+                            placeholder="How should we call you?"></label>
+                    <label>Email address<input type="email" name="email" required autocomplete="email"
+                            placeholder="you@example.com"></label>
+                    <label>Password<input type="password" name="password" required minlength="6"
+                            autocomplete="new-password" placeholder="At least 6 characters"></label>
+                    <button class="button button-wide" type="submit">Join the community →</button>
+                    <p class="form-foot">Already a member? <a href="/login">Sign in</a></p>
+        </form>
+    </section>
+    <%- include("partials/foot") %>

@@ -1,0 +1,24 @@
+<%- include("partials/head", { title }) %>
+    <section class="auth-wrap">
+        <div class="auth-art">
+            <p class="eyebrow">WELCOME TO THE TABLE</p>
+            <h1>Come hungry.<br>Leave <em>inspired.</em></h1>
+            <p>Your next favourite recipe is waiting.</p>
+        </div>
+        <form class="form-card auth-card" action="/login" method="POST">
+            <p class="eyebrow">GOOD TO SEE YOU</p>
+            <h2>Sign in</h2>
+            <% if (error) { %>
+                <p class="alert">
+                    <%= error %>
+                </p>
+                <% } %>
+                    <label>Email address<input type="email" name="email" required autocomplete="email"
+                            placeholder="you@example.com"></label>
+                    <label>Password<input type="password" name="password" required autocomplete="current-password"
+                            placeholder="Your password"></label>
+                    <button class="button button-wide" type="submit">Sign in →</button>
+                    <p class="form-foot">New to Savoury? <a href="/register">Create an account</a></p>
+        </form>
+    </section>
+    <%- include("partials/foot") %>
